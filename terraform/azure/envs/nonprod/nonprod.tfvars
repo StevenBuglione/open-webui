@@ -5,15 +5,16 @@ location        = "eastus2"
 security_resource_group_name   = "rg-openwebui-sec-nonprod"
 monitoring_resource_group_name = "rg-openwebui-monitor-nonprod"
 
-key_vault_name                      = "kv-openwebui-nonprod"
+key_vault_name                       = "kv-openwebui-nonprod"
 key_vault_private_endpoint_subnet_id = null
 virtual_network_id                   = null
-log_analytics_workspace_name        = "law-openwebui-nonprod"
+log_analytics_workspace_name         = "law-openwebui-nonprod"
 
 groups = [
   {
     display_name = "OWUI-Admins-NonProd"
     description  = "Non-prod OpenWebUI administrators"
+    members      = ["58113952-db02-4975-88e1-9dab68d40aff"]
   },
   {
     display_name = "OWUI-Developers-NonProd"
@@ -42,13 +43,13 @@ rbac_mappings = {
 
 role_assignments = []
 
-create_administrative_unit        = true
-administrative_unit_display_name  = "OpenWebUI NonProd AU"
+create_administrative_unit       = true
+administrative_unit_display_name = "OpenWebUI NonProd AU"
 
 openwebui_redirect_uris = [
-  "https://owui-nonprod.oremuslabs.app/oauth/callback"
+  "https://external.owui-prod.oremuslabs.app/oauth/callback"
 ]
-openwebui_logout_url     = "https://owui-nonprod.oremuslabs.app/logout"
+openwebui_logout_url      = "https://external.owui-prod.oremuslabs.app/logout"
 openwebui_identifier_uris = []
 openwebui_app_roles = [
   {
@@ -65,8 +66,8 @@ openwebui_app_roles = [
   }
 ]
 
-scim_base_address = "https://owui-nonprod.oremuslabs.app/scim"
-scim_secret_token = "nonprod-scim-token-a9f3df04"
+scim_base_address = "https://external.owui-prod.oremuslabs.app/scim"
+scim_secret_token = "" # supply via TF_VAR_scim_secret_token when SCIM is enabled
 scim_template_id  = "d4d8f7f3-19c7-4dbf-a489-8f3f85c24f0c"
 scim_enabled      = false
 
@@ -76,7 +77,7 @@ lite_llm_display_name        = "LiteLLM NonProd"
 
 conditional_access_policies = []
 
-diagnostic_sources      = []
+diagnostic_sources         = []
 key_vault_rbac_assignments = []
 
 tags = {

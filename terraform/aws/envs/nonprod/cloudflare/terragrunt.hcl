@@ -5,7 +5,7 @@ include "root" {
 locals {
   enable_cloudflare_dns = true
   cloudflare_zone_id    = "54e6b3c156fa928a6c7d73025408e845"
-  cloudflare_record_name = "owui-nonprod"
+  cloudflare_record_name = "external.owui-prod"
   cloudflare_token      = get_env("CLOUDFLARE_API_TOKEN", "")
 }
 

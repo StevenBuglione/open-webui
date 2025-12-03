@@ -1,9 +1,11 @@
 output "openwebui_application" {
   description = "Identifiers for the OpenWebUI app registration."
   value = {
-    client_id    = module.app_registrations.openid.client_id
-    object_id    = module.app_registrations.openid.object_id
-    sp_object_id = module.app_registrations.openid.service_principal_id
+    client_id     = module.app_registrations.openid.client_id
+    object_id     = module.app_registrations.openid.object_id
+    sp_object_id  = module.app_registrations.openid.service_principal_id
+    client_secret = module.app_registrations.openid.client_secret
+    app_role_ids  = module.app_registrations.openid.app_role_ids
   }
   sensitive = true
 }

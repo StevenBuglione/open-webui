@@ -241,6 +241,8 @@ web_modules/
 # Terraform
 .terraform/
 **/.terraform/
+*.auto.tfvars
+*.auto.tfvars.json
 *.tfstate
 *.tfstate.*
 

@@ -7,6 +7,18 @@ locals {
   })
 
   certificate_arn = var.use_managed_certificate ? aws_acm_certificate.managed[0].arn : var.existing_certificate_arn
+
+  azure_env_overrides = local.azure_openwebui_client_id != null ? {
+    OAUTH_CLIENT_ID = local.azure_openwebui_client_id
+  } : {}
+
+  openwebui_env_effective = merge(var.openwebui_env, local.azure_env_overrides)
+
+  openwebui_oidc_secret_effective = coalesce(
+    var.openwebui_oidc_client_secret != "" ? var.openwebui_oidc_client_secret : null,
+    local.azure_openwebui_client_secret,
+    "replace-me"
+  )
 }
 
 resource "aws_acm_certificate" "managed" {
@@ -89,7 +101,7 @@ locals {
       attach_to_alb     = true
       path_patterns     = ["/*"]
       health_check_path = "/"
-      env = merge(var.openwebui_env, {
+      env = merge(local.openwebui_env_effective, {
         OPENAI_API_BASE = var.litellm_internal_url
       })
       secrets = concat([
@@ -104,6 +116,10 @@ locals {
         {
           name       = "SCIM_TOKEN"
           value_from = aws_secretsmanager_secret.openwebui_scim_token.arn
+        },
+        {
+          name       = "WEBUI_SECRET_KEY"
+          value_from = aws_secretsmanager_secret.openwebui_secret_key.arn
         }
       ], var.openwebui_secret_arns)
       efs_volume = {
@@ -220,11 +236,11 @@ module "integrations" {
   source = "../../modules/integrations"
   ssm_parameters = {
     "/openwebui/${local.environment}/oauth/client_id" = {
-      value       = var.openwebui_env["OAUTH_CLIENT_ID"]
+      value       = local.openwebui_env_effective["OAUTH_CLIENT_ID"]
       description = "OpenWebUI OIDC client ID"
     }
     "/openwebui/${local.environment}/oauth/issuer" = {
-      value       = var.openwebui_env["OAUTH_ISSUER_URL"]
+      value       = local.openwebui_env_effective["OAUTH_ISSUER_URL"]
       description = "OpenWebUI issuer"
     }
   }

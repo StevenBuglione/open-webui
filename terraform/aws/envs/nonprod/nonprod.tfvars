@@ -32,29 +32,34 @@ openwebui_cpu             = 1024
 openwebui_memory          = 2048
 
 openwebui_env = {
-  OPENWEBUI_PUBLIC_URL          = "https://owui-nonprod.oremuslabs.app"
+  OPENWEBUI_PUBLIC_URL          = "https://external.owui-prod.oremuslabs.app"
   OAUTH_PROVIDER                = "oidc"
   OAUTH_CLIENT_ID               = "replace-with-openid-client-id"
   OAUTH_ISSUER_URL              = "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0"
+  OPENID_PROVIDER_URL           = "https://login.microsoftonline.com/abfcbee8-658f-4ab3-97f5-9b357e0f8cda/v2.0/.well-known/openid-configuration"
+  OPENID_REDIRECT_URI           = "https://external.owui-prod.oremuslabs.app/oauth/callback"
+  OAUTH_PROVIDER_NAME           = "Microsoft Entra ID"
+  CONFIG_LOG_LEVEL              = "DEBUG"
+  OAUTH_LOG_LEVEL               = "DEBUG"
   ENABLE_OAUTH                  = "true"
   ENABLE_OAUTH_GROUP_MANAGEMENT = "true"
   OAUTH_GROUPS_CLAIM            = "groups"
   ENABLE_SCIM                   = "false"
-  SCIM_BASE_URL                 = "https://owui-nonprod.oremuslabs.app/scim"
-  LITELLM_BASE_URL              = "https://owui-nonprod.oremuslabs.app/litellm"
+  SCIM_BASE_URL                 = "https://external.owui-prod.oremuslabs.app/scim"
+  LITELLM_BASE_URL              = "https://external.owui-prod.oremuslabs.app/litellm"
   VECTOR_DB                     = "pgvector"
 }
 
 openwebui_secret_arns = []
 
-litellm_internal_url    = "https://owui-nonprod.oremuslabs.app/litellm"
+litellm_internal_url    = "https://external.owui-prod.oremuslabs.app/litellm"
 litellm_container_image = "ghcr.io/berriai/litellm:main"
 litellm_container_port  = 4000
 litellm_env = {
-  PORT               = "4000"
-  LITELLM_DEBUG      = "true"
-  AWS_REGION         = "us-east-1"
-  AWS_DEFAULT_REGION = "us-east-1"
+  PORT                    = "4000"
+  LITELLM_DEBUG           = "true"
+  AWS_REGION              = "us-east-1"
+  AWS_DEFAULT_REGION      = "us-east-1"
   LITELLM_CONFIG_FALLBACK = <<-EOT
   {
     "model_list": [
@@ -145,9 +150,9 @@ log_retention_in_days = 30
 
 enable_cloudflare_dns  = true
 cloudflare_zone_id     = "54e6b3c156fa928a6c7d73025408e845"
-cloudflare_record_name = "owui-nonprod"
+cloudflare_record_name = "external.owui-prod"
 
-certificate_domain_name  = "owui-nonprod.oremuslabs.app"
+certificate_domain_name  = "external.owui-prod.oremuslabs.app"
 certificate_san          = []
 use_managed_certificate  = true
 existing_certificate_arn = ""

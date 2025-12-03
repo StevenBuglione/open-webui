@@ -3,7 +3,7 @@
 ## 0. Current State & Learnings from Azure Work
 - Azure side is fully automated: Entra groups, OpenID app registration, LiteLLM SP, SCIM placeholder, and environment-specific outputs are available via `terraform/azure/envs/{nonprod,prod}`. Group object IDs and RBAC mappings now use meaningful LiteLLM team names (e.g., `owui-nonprod-admins`).
 - Terraform state for both Azure and AWS now resides in your personal `workspaces` S3 bucket (endpoint `https://s3.oremuslabs.app`), so all modules should assume remote state via that bucket + per-environment key.
-- Non-prod OpenWebUI URLs are canonicalized under `owui-nonprod.oremuslabs.app`. DNS is hosted in Cloudflare, so AWS certificates/DNS validation must integrate with Cloudflare APIs (or manual records) rather than Route53.
+- Non-prod OpenWebUI URLs are canonicalized under `external.owui-prod.oremuslabs.app`. DNS is hosted in Cloudflare, so AWS certificates/DNS validation must integrate with Cloudflare APIs (or manual records) rather than Route53.
 - Secrets that originate in Entra (OIDC client secret, SCIM token) are **not** provisioned in Azure. We must create empty AWS Secrets Manager placeholders and instruct operators to insert the values after each run.
 
 ## 1. Objectives
@@ -109,7 +109,7 @@ Each environment main file should:
 
 ## 6. Cloudflare & Certificate Strategy
 1. Request ACM certificate in the region powering the ALB (us-east-1 or whichever). We use DNS validation.
-2. If Cloudflare automation enabled, Terraform writes `_acme-challenge` records plus the final CNAME (`owui-nonprod.oremuslabs.app`) after ALB provisioning.
+2. If Cloudflare automation enabled, Terraform writes `_acme-challenge` records plus the final CNAME (`external.owui-prod.oremuslabs.app`) after ALB provisioning.
 3. Cloudflare provider credentials should be supplied via `CLOUDFLARE_API_TOKEN` env var; if unset, the DNS module simply does not create resources.
 4. Cloudflare SSL/TLS mode should remain “Full (strict)” so Cloudflare trusts ACM certificate.
 

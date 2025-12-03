@@ -8,13 +8,13 @@ log_analytics_workspace_name   = "law-openwebui-nonprod"
 key_vault_private_endpoint_subnet_id = null
 virtual_network_id                    = null
 openwebui_redirect_uris = [
-  "https://owui.example.com/oauth/callback"
+  "https://external.owui-prod.oremuslabs.app/oauth/callback"
 ]
-openwebui_logout_url = "https://owui-nonprod.oremuslabs.app/logout"
+openwebui_logout_url = "https://external.owui-prod.oremuslabs.app/logout"
 openwebui_identifier_uris = []
 openwebui_app_roles = []
-scim_base_address = "https://owui-nonprod.oremuslabs.app/scim"
-scim_secret_token = "replace-me"
+scim_base_address = "https://external.owui-prod.oremuslabs.app/scim"
+scim_secret_token = ""
 scim_template_id  = "d4d8f7f3-19c7-4dbf-a489-8f3f85c24f0c"
 scim_enabled      = true
 lite_llm_application_enabled = true

@@ -152,6 +152,13 @@ variable "openwebui_scim_token" {
   sensitive   = true
 }
 
+variable "openwebui_secret_key" {
+  description = "Override for the session signing key. Leave blank to auto-generate and store it in Secrets Manager."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
 variable "openwebui_secret_arns" {
   description = "Secret references for OpenWebUI."
   type = list(object({
