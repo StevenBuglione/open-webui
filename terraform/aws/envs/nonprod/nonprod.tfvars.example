@@ -1,0 +1,54 @@
+environment = "nonprod"
+aws_region  = "us-east-1"
+aws_profile = "default"
+
+tags = {
+  Owner       = "team"
+  CostCenter  = "1234"
+}
+
+vpc_cidr             = "10.20.0.0/16"
+availability_zones   = ["us-east-1a", "us-east-1b"]
+public_subnet_cidrs  = ["10.20.0.0/24", "10.20.1.0/24"]
+private_subnet_cidrs = ["10.20.10.0/24", "10.20.11.0/24"]
+enable_nat_gateway   = true
+
+alb_ingress_cidrs = ["0.0.0.0/0"]
+
+database_username          = "openwebui"
+database_name              = "openwebui"
+database_instance_class    = "db.m6g.large"
+database_allocated_storage = 200
+
+openwebui_container_image = "ghcr.io/open-webui/open-webui:main"
+openwebui_env = {
+  OPENWEBUI_PUBLIC_URL  = "https://owui-nonprod.example.com"
+  OAUTH_PROVIDER        = "oidc"
+  OAUTH_CLIENT_ID       = "replace"
+  OAUTH_ISSUER_URL      = "https://login.microsoftonline.com/<tenant>/v2.0"
+  ENABLE_OAUTH          = "true"
+  OAUTH_GROUPS_CLAIM    = "groups"
+  LITELLM_BASE_URL      = "https://owui-nonprod.example.com/litellm"
+}
+openwebui_secret_arns = [
+  {
+    name       = "OAUTH_CLIENT_SECRET"
+    value_from = "arn:aws:secretsmanager:region:account:secret:openwebui/oidc-client"
+  }
+]
+
+litellm_container_image = "ghcr.io/berriai/litellm:main"
+litellm_env = {}
+litellm_secrets = []
+litellm_internal_url = "https://owui-nonprod.example.com/litellm"
+
+mcpo_container_image = "ghcr.io/modelcontextprotocol/mcpo:latest"
+mcpo_env = {}
+mcpo_secrets = []
+
+enable_cloudflare_dns  = false
+cloudflare_zone_id     = ""
+cloudflare_record_name = "owui-nonprod"
+certificate_domain_name = "owui-nonprod.example.com"
+use_managed_certificate = false
+existing_certificate_arn = "arn:aws:acm:region:account:certificate/replace"

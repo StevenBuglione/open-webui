@@ -1,0 +1,69 @@
+tenant_id        = "00000000-0000-0000-0000-000000000000"
+subscription_id  = "00000000-0000-0000-0000-000000000000"
+location         = "eastus2"
+security_resource_group_name  = "rg-openwebui-sec-nonprod"
+monitoring_resource_group_name = "rg-openwebui-monitor-nonprod"
+key_vault_name                 = "kv-openwebui-nonprod"
+log_analytics_workspace_name   = "law-openwebui-nonprod"
+key_vault_private_endpoint_subnet_id = null
+virtual_network_id                    = null
+openwebui_redirect_uris = [
+  "https://owui.example.com/oauth/callback"
+]
+openwebui_logout_url = "https://owui-nonprod.oremuslabs.app/logout"
+openwebui_identifier_uris = []
+openwebui_app_roles = []
+scim_base_address = "https://owui-nonprod.oremuslabs.app/scim"
+scim_secret_token = "replace-me"
+scim_template_id  = "d4d8f7f3-19c7-4dbf-a489-8f3f85c24f0c"
+scim_enabled      = true
+lite_llm_application_enabled = true
+lite_llm_identifier_uris     = []
+lite_llm_display_name        = "LiteLLM Service"
+create_administrative_unit   = true
+administrative_unit_display_name = "OpenWebUI Prod AU"
+role_assignments = []
+groups = [
+  {
+    display_name = "OWUI-Admins-NonProd"
+    description  = "OpenWebUI administrators"
+  },
+  {
+    display_name = "OWUI-Developers-NonProd"
+    description  = "Developer tier"
+  },
+  {
+    display_name = "OWUI-Business-NonProd"
+    description  = "Business users"
+  }
+]
+rbac_mappings = {
+  "OWUI-Admins-NonProd" = {
+    openwebui_role = "admin"
+    lite_llm_team  = "admins"
+  }
+  "OWUI-Developers-NonProd" = {
+    openwebui_role = "workspace-admin"
+    lite_llm_team  = "developers"
+  }
+  "OWUI-Business-NonProd" = {
+    openwebui_role = "user"
+    lite_llm_team  = "business"
+  }
+}
+conditional_access_policies = [
+  {
+    display_name         = "Require MFA for OpenWebUI"
+    state                = "enabled"
+    include_applications = ["OPENWEBUI"]
+    include_groups       = ["OWUI-Admins-NonProd", "OWUI-Developers-NonProd", "OWUI-Business-NonProd"]
+    grant_controls = {
+      built_in_controls = ["mfa"]
+    }
+  }
+]
+diagnostic_sources = []
+key_vault_rbac_assignments = []
+tags = {
+  Owner = "platform-team"
+}

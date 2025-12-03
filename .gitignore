@@ -234,6 +234,16 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
+# Terragrunt
+.terragrunt-cache/
+**/.terragrunt-cache/
+
+# Terraform
+.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+
 # Microbundle cache
 .rpt2_cache/
 .rts2_cache_cjs/

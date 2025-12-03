@@ -1,0 +1,29 @@
+output "openwebui_application" {
+  description = "Identifiers for the OpenWebUI app registration."
+  value = {
+    client_id    = module.app_registrations.openid.client_id
+    object_id    = module.app_registrations.openid.object_id
+    sp_object_id = module.app_registrations.openid.service_principal_id
+  }
+  sensitive = true
+}
+
+output "group_object_ids" {
+  description = "Map of RBAC group names to object IDs."
+  value       = module.groups.groups
+}
+
+output "rbac_mapping" {
+  description = "Computed RBAC mapping consumed by AWS/OpenWebUI."
+  value       = module.rbac_mapping.openwebui_group_mappings
+}
+
+output "key_vault_uri" {
+  description = "URI of the Key Vault storing OpenWebUI secrets."
+  value       = module.secrets.key_vault_uri
+}
+
+output "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for Entra diagnostics."
+  value       = module.monitoring.workspace_id
+}
